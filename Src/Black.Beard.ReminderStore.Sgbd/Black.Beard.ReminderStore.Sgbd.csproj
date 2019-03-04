@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Black.Beard.Reminder.Contracts\Black.Beard.Reminder.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Table_Reminder.Sqlserver.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
