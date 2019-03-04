@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>1.0.1</Version>
+    <Authors>Black Beard</Authors>
+    <Company>Black Beard</Company>
+    <Copyright>Black Beard</Copyright>
+    <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Moleculars/Reminder</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Black.Beard.Brokers.Contracts" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Black.Beard.Reminder.Contracts\Black.Beard.Reminder.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Bb.ReminderStore.Sgbd</RootNamespace>
+    <Authors>Black Beard</Authors>
+    <Company>Black Beard</Company>
+    <Copyright>Black Beard</Copyright>
+    <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>
+    <Version>1.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Black.Beard.Reminder.Contracts\Black.Beard.Reminder.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
