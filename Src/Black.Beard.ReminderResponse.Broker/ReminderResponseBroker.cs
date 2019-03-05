@@ -9,7 +9,7 @@ namespace Bb.ReminderResponse.Broker
     public class ReminderResponseBroker : IReminderResponseService
     {
 
-        public ReminderResponseBroker(IBroker broker, string publisherName)
+        public ReminderResponseBroker(IFactoryBroker broker, string publisherName)
         {
             _broker = broker;
             _publisherName = publisherName;
@@ -21,13 +21,13 @@ namespace Bb.ReminderResponse.Broker
         {
 
             if (_publisher == null)
-                _publisher = _broker.GetPublisher(_publisherName);
+                _publisher = _broker.CreatePublisher(_publisherName);
 
             _publisher.Publish(message, headers).Wait();
 
         }
 
-        private IBroker _broker;
+        private IFactoryBroker _broker;
         private IBrokerPublisher _publisher;
         private readonly string _publisherName;
 
