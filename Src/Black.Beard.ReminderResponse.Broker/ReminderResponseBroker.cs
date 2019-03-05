@@ -3,7 +3,7 @@ using Bb.Reminder;
 using System;
 using System.Collections.Generic;
 
-namespace Black.Beard.ReminderResponse.Broker
+namespace Bb.ReminderResponse.Broker
 {
 
     public class ReminderResponseBroker : IReminderResponseService

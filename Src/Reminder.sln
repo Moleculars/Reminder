@@ -5,19 +5,24 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.Reminder.Contracts", "Black.Beard.Reminder.Contracts\Black.Beard.Reminder.Contracts.csproj", "{E73EA33B-13D2-4E07-B0B9-7FE985A04DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Black.Beard.Reminder", "Black.Beard.Reminder\Black.Beard.Reminder.csproj", "{61CC8BE0-A265-4C12-AB47-16BD332B22F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.Reminder", "Black.Beard.Reminder\Black.Beard.Reminder.csproj", "{61CC8BE0-A265-4C12-AB47-16BD332B22F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Black.Beard.Reminder.UnitTests", "Black.Beard.Reminder.UnitTests\Black.Beard.Reminder.UnitTests.csproj", "{792CEF2C-E61A-4877-A9DA-6FA1E76BEE46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.Reminder.UnitTests", "Black.Beard.Reminder.UnitTests\Black.Beard.Reminder.UnitTests.csproj", "{792CEF2C-E61A-4877-A9DA-6FA1E76BEE46}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.ReminderStore.Sgbd", "Black.Beard.ReminderStore.Sgbd\Black.Beard.ReminderStore.Sgbd.csproj", "{34E4808A-61FB-4954-B6A1-333E97562052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Black.Beard.ReminderResponse.Broker", "Black.Beard.ReminderResponse.Broker\Black.Beard.ReminderResponse.Broker.csproj", "{3CE6ADC9-DFA1-44A0-A915-DB5B85102F8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.ReminderResponse.Broker", "Black.Beard.ReminderResponse.Broker\Black.Beard.ReminderResponse.Broker.csproj", "{3CE6ADC9-DFA1-44A0-A915-DB5B85102F8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Black.Beard.ReminderResponse.Http", "Black.Beard.ReminderResponse.Http\Black.Beard.ReminderResponse.Http.csproj", "{A5A3FD49-845F-4616-A47C-9D5F54E07D94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomImplementations", "CustomImplementations", "{8AF0D97C-1888-44F3-A717-F35A6D61532F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reminder", "Reminder", "{96CBB631-BCEB-4DFA-98CC-CD2EC4A6AE5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE1A78AA-8A99-4ECB-920E-2FFE29AC896A}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
