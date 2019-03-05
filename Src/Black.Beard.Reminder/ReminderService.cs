@@ -59,7 +59,14 @@ namespace Bb.Reminder
             if (!disposedValue)
             {
                 if (disposing)
+                {
                     _store.WakeUp -= WakeUp;
+
+                    foreach (var item in this._methods)
+                        item.Value.Dispose();
+
+                }
+
                 disposedValue = true;
             }
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Bb.Reminder
 {
 
-    public interface IReminderResponseService
+    public interface IReminderResponseService : IDisposable
     {
 
         string MethodName { get; }
