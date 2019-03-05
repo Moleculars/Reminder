@@ -4,7 +4,7 @@ using System;
 namespace Bb.Reminder
 {
 
-    public interface IReminderStore
+    public interface IReminderStore : IDisposable
     {
 
         void Watch(WakeUpRequestModel model);

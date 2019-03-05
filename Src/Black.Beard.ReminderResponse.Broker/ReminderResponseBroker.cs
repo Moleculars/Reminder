@@ -10,10 +10,10 @@ namespace Bb.ReminderResponse.Broker
     public class ReminderResponseBroker : IReminderResponseService, IDisposable
     {
 
-        public ReminderResponseBroker(IFactoryBroker broker, string publisherName)
+        public ReminderResponseBroker(IFactoryBroker broker)
         {
             _broker = broker;
-            _publisherName = publisherName;
+            _publishers = new Dictionary<string, IBrokerPublisher>();
         }
 
         public string MethodName => "broker";
@@ -21,17 +21,24 @@ namespace Bb.ReminderResponse.Broker
         public void Push(Guid uuid, string address, string message, Dictionary<string, object> headers)
         {
 
-            if (_publisher == null)
-                _publisher = _broker.CreatePublisher(_publisherName);
+            if (!_publishers.TryGetValue(address, out IBrokerPublisher publisher))
+                lock (_lock)
+                    if (!_publishers.TryGetValue(address, out publisher))
+                        _publishers.Add(address, publisher = _broker.CreatePublisher(address));
 
             try
             {
-                _publisher.Publish(message, headers).Wait();
+                publisher.Publish(message, headers).Wait();
             }
             catch (Exception e)
             {
-                _publisher.Dispose();
-                _publisher = null;
+
+                lock (_lock)
+                    _publishers.Remove(address);
+
+                publisher.Dispose();
+                publisher = null;
+
                 Trace.WriteLine(new { e.Message, Exception = e });
                 throw;
             }
@@ -47,13 +54,8 @@ namespace Bb.ReminderResponse.Broker
             if (!disposedValue)
             {
                 if (disposing)
-                {
-                    if (_publisher != null)
-                    {
-                        _publisher.Dispose();
-                        _publisher = null;
-                    }
-                }
+                    foreach (var item in _publishers)
+                        item.Value.Dispose();
 
                 disposedValue = true;
             }
@@ -70,8 +72,8 @@ namespace Bb.ReminderResponse.Broker
         #endregion
 
         private IFactoryBroker _broker;
-        private IBrokerPublisher _publisher;
-        private readonly string _publisherName;
+        private Dictionary<string, IBrokerPublisher> _publishers;
+        private readonly object _lock = new object();
 
     }
 
