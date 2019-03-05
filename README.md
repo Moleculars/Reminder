@@ -2,30 +2,32 @@
 
 Implement a reminder
 
-
-Install a implementation of broker on rabbitMQ
-https://github.com/Black-Beard-Sdk/Brokers
+Installation by nuget package <a href="https://github.com/Moleculars/Reminder">Here</a>
 ``` 
-    Install-Package Black.Beard.RabbitMq -Version 1.0.2
+    Install-Package Black.Beard.Reminder
 ```
 
-Script of creation of the table in Sqlserver.
-https://github.com/Moleculars/Reminder/blob/master/Src/Black.Beard.ReminderStore.Sgbd/Table_Reminder.Sqlserver.sql
+Installation of implementation of broker on rabbitMQ <a href="https://github.com/Black-Beard-Sdk/Brokers">here</a>
+``` 
+    Install-Package Black.Beard.RabbitMq
+```
+
+
+A Script of creation of the table in Sqlserver. <a href="https://github.com/Moleculars/Reminder/blob/master/Src/Black.Beard.ReminderStore.Sgbd/Table_Reminder.Sqlserver.sql">here</a>
 
 ```CSharp
 
-    // Initialisation of DbFactory
+    // Initialisation of DbFactory (it is specfic for type 'ReminderStoreSqlServer')
     string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=Reminder;Integrated Security=True";
     DbProviderFactories.RegisterFactory(_providerInvariantName, System.Data.SqlClient.SqlClientFactory.Instance);
-    
     // creation of store that working on Sqlserver.
     var store = new ReminderStoreSqlServer(connectionString, _providerInvariantName, 5);
     
-    IBroker broker = null; // use an instance of broker
-    
 
+    IBroker broker = null; // use an instance of broker    
     // create a response that push in a broker
     Bb.ReminderResponse.Broker serviceActionBroker = new Bb.ReminderResponse.Broker(broker, "nameOfThePublisher")
+
 
     var reminder = new ReminderService(store, serviceActionBroker);
 
