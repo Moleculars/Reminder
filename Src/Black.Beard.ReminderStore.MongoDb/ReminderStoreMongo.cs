@@ -4,18 +4,18 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace Bb.ReminderStore.Sgbd
+
+namespace Bb.ReminderStore.MongoDb
 {
 
 
-    public abstract class ReminderStoreMongo : IReminderStore, IInitializer, IDisposable
+    public class ReminderStoreMongo : IReminderStore, IInitializer, IDisposable
     {
 
-        protected ReminderStoreMongo(string connectionString, string databaseName, string collectionName, int wakeUpIntervalSeconds = 20)
+        public ReminderStoreMongo(string connectionString, string databaseName, string collectionName, int wakeUpIntervalSeconds = 20)
         {
             _connectionString = connectionString;
             _databaseName = databaseName;
@@ -27,17 +27,19 @@ namespace Bb.ReminderStore.Sgbd
         public void Initialize(object o)
         {
 
-            _client1 = new MongoClient(_connectionString);
-            _database1 = _client1.GetDatabase(_databaseName);
-            _wathItemCollection1 = _database1.GetCollection<WatchItem>(_collectionName);
+            _client = new MongoClient(_connectionString);
+            _database = _client.GetDatabase(_databaseName);
+            _wathItemCollection = _database.GetCollection<WatchItem>(_collectionName);
 
-            _client2 = new MongoClient(_connectionString);
-            _database2 = _client2.GetDatabase(_databaseName);
-            _wathItemCollection2 = _database1.GetCollection<WatchItem>(_collectionName);
+            var indexKeys = Builders<WatchItem>.IndexKeys.Ascending(_ => _.Expire);
+            var indexOptions = new CreateIndexOptions();
+
+            _wathItemCollection.Indexes.CreateOne(indexKeys, indexOptions);
 
             _filterLeft = Builders<WatchItem>.Filter
                 .Eq("resolved", false)
                 ;
+
         }
 
         public void Watch(WakeUpRequestModel model)
@@ -53,7 +55,7 @@ namespace Bb.ReminderStore.Sgbd
                 Expire = DateTimeOffset.Now.AddSeconds(model.DelayInMinute),
             };
 
-            _wathItemCollection1.InsertOne(watchItem);
+            _wathItemCollection.InsertOne(watchItem);
 
         }
 
@@ -90,42 +92,34 @@ namespace Bb.ReminderStore.Sgbd
                 var filter = Builders<WatchItem>.Filter.And(_filterLeft, filterRight);
                 var update = Builders<WatchItem>.Update.Set("resolved", true);
 
-                try
+                var result = _wathItemCollection.UpdateOne(filter, update);
+
+                if (result.ModifiedCount != 0)
                 {
-
-                    //new ClientSessionOptions()
-                    //{
-                    //    DefaultTransactionOptions
-                    //};
-
-                    using (_trans = _client2.StartSession())
+                    try
                     {
 
-                        var result = _wathItemCollection2.UpdateOne(filter, update);
-
-                        if (result.ModifiedCount != 0)
+                        WakeUp(new WakeUpRequestModel()
                         {
+                            Address = item.Address,
+                            Binding = item.Binding,
+                            Uuid = item.Uuid,
+                            Message = item.Message,
+                            Headers = item.Headers,
+                        });
 
-                            WakeUp(new WakeUpRequestModel()
-                            {
-                                Address = item.Address,
-                                Binding = item.Binding,
-                                Uuid = item.Uuid,
-                                Message = item.Message,
-                                Headers = item.Headers,
-                            });
-
-                            _trans.CommitTransaction();
-
-                        }
-
+                    }
+                    catch (Exception)
+                    {
+                        update = Builders<WatchItem>.Update.Set("resolved", false);
+                        result = _wathItemCollection.UpdateOne(filterRight, update);
+                        throw;
                     }
 
                 }
-                catch (Exception e)
-                {
-                    Trace.WriteLine(new { e.Message, Exception = e, item.Uuid }, TraceLevel.Error.ToString());
-                }
+
+
+
 
             }
 
@@ -142,7 +136,7 @@ namespace Bb.ReminderStore.Sgbd
                 Builders<WatchItem>.Filter.AnyGte("expire", DateTimeOffset.Now)
             );
 
-            var result = _wathItemCollection2.Find(filter).ToList();
+            var result = _wathItemCollection.Find(filter).ToList();
 
             return result;
 
@@ -155,17 +149,13 @@ namespace Bb.ReminderStore.Sgbd
         private readonly Timer _timer;
         private readonly object _lock = new object();
         private bool _execute;
-        private IClientSessionHandle _trans;
 
         #region IDisposable Support
 
         private bool disposedValue = false; // Pour détecter les appels redondants
-        private MongoClient _client1;
-        private MongoClient _client2;
-        private IMongoDatabase _database1;
-        private IMongoDatabase _database2;
-        private IMongoCollection<WatchItem> _wathItemCollection1;
-        private IMongoCollection<WatchItem> _wathItemCollection2;
+        private MongoClient _client;
+        private IMongoDatabase _database;
+        private IMongoCollection<WatchItem> _wathItemCollection;
         private FilterDefinition<WatchItem> _filterLeft;
 
         protected virtual void Dispose(bool disposing)

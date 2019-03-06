@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Black.Beard.ReminderResponse.Broker\Black.Beard.ReminderResponse.Broker.csproj" />
     <ProjectReference Include="..\Black.Beard.ReminderResponse.Http\Black.Beard.ReminderResponse.Http.csproj" />
+    <ProjectReference Include="..\Black.Beard.ReminderStore.MongoDb\Black.Beard.ReminderStore.MongoDb.csproj" />
     <ProjectReference Include="..\Black.Beard.ReminderStore.Sgbd\Black.Beard.ReminderStore.Sgbd.csproj" />
     <ProjectReference Include="..\Black.Beard.Reminder\Black.Beard.Reminder.csproj" />
   </ItemGroup>

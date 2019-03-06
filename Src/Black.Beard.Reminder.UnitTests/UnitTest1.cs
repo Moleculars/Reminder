@@ -1,4 +1,5 @@
 using Bb.Reminder;
+using Bb.ReminderStore.MongoDb;
 using Bb.ReminderStore.Sgbd;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -81,6 +82,14 @@ namespace Black.Beard.Reminder.UnitTests
             string connectionString = @"Data Source=L00280\SQLEXPRESS;Initial Catalog=Reminder;Integrated Security=True";
             DbProviderFactories.RegisterFactory(_providerInvariantName, System.Data.SqlClient.SqlClientFactory.Instance);
             var store = new ReminderStoreSqlServer(connectionString, _providerInvariantName, 5);
+            return store;
+        }
+
+        private static ReminderStoreMongo CreateMongoDb()
+        {
+            string connectionString = @"Data Source=L00280\SQLEXPRESS;Initial Catalog=Reminder;Integrated Security=True";
+            DbProviderFactories.RegisterFactory(_providerInvariantName, System.Data.SqlClient.SqlClientFactory.Instance);
+            var store = new ReminderStoreMongo(connectionString, "", "", 5);
             return store;
         }
 
