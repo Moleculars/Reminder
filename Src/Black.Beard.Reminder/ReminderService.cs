@@ -37,25 +37,8 @@ namespace Bb.Reminder
         {
 
             if (_methods.TryGetValue(model.Binding, out IReminderResponseService service))
-            {
+                service.Push(model.Uuid, model.Address, model.GetMessage(), model.GetHeaders());
 
-                byte[] bytes = Convert.FromBase64String(model.Message);
-                string message = System.Text.Encoding.UTF8.GetString(bytes)
-                    ;
-
-                Dictionary<string, object> headers;
-                if (!string.IsNullOrEmpty(model.Headers))
-                    headers = model.Headers.Split(';')
-                        .Where(c => !string.IsNullOrEmpty(c))
-                        .Select(c => c.Trim().Split('='))
-                        .Where(c => !string.IsNullOrEmpty(c[0]) && !string.IsNullOrEmpty(c[1]))
-                        .ToDictionary(c => c[0], c => (object)c[1]);
-                else
-                    headers = new Dictionary<string, object>();
-
-                service.Push(model.Uuid, model.Address, message, headers);
-
-            }
             else
                 throw new Exception($"Missing method {model.Binding}");
 

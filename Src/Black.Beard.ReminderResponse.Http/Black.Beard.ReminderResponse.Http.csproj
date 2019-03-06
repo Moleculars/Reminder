@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>Bb.ReminderResponse.Http</RootNamespace>
-    <Version>1.0.9</Version>
+    <Version>1.0.10</Version>
     <Authors>Black Beard</Authors>
     <Copyright>Black Beard</Copyright>
     <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>

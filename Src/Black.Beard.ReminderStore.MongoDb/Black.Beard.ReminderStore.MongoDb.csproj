@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Bb.ReminderStore.MongoDb</RootNamespace>
+    <PackageId>Black.Beard.ReminderStore.MongoDb</PackageId>
+    <Version>1.0.7</Version>
+    <Copyright>Black Beard</Copyright>
+    <Authors>Black Beard</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Moleculars/Reminder</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

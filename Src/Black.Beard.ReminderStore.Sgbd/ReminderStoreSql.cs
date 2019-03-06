@@ -10,20 +10,6 @@ namespace Bb.ReminderStore.Sgbd
 {
 
 
-    public class ReminderStoreSqlServer : ReminderStoreSql
-    {
-
-        public ReminderStoreSqlServer(string connectionString, string providerInvariantName, int wakeUpIntervalSeconds = 20) 
-            : base (connectionString, providerInvariantName, wakeUpIntervalSeconds)
-        {
-            SqlInsert = "INSERT INTO [dbo].[Reminders] ([Uuid], [Binding], [Address], [Message], [Expire], [Resolved]) VALUES (@uuid, @binding, @address, @message, @expire, 0)";
-            SqlQuery = "SELECT [_id], [Uuid], [binding], [Address], [Message] FROM [dbo].Reminders r (UPDLOCK) WHERE r.Expire < CURRENT_TIMESTAMP AND r.Resolved = 0";
-            SqlRemove = "UPDATE [dbo].Reminders SET Resolved = 1 WHERE Uuid = @uuid";
-        }
-
-    }
-
-
     public abstract class ReminderStoreSql : IReminderStore, IDisposable
     {
 
@@ -40,7 +26,6 @@ namespace Bb.ReminderStore.Sgbd
 
         }
 
-
         public void Watch(WakeUpRequestModel model)
         {
 
@@ -52,12 +37,11 @@ namespace Bb.ReminderStore.Sgbd
                 cmd.Parameters.Add(GetParameter(nameof(model.Binding), model.Binding, System.Data.DbType.String));
                 cmd.Parameters.Add(GetParameter(nameof(model.Address), model.Address, System.Data.DbType.String));
                 cmd.Parameters.Add(GetParameter(nameof(model.Message), model.Message, System.Data.DbType.String));
-                cmd.Parameters.Add(GetParameter("Expire", DateTimeOffset.Now.AddSeconds(model.DelayInMinute), System.Data.DbType.DateTimeOffset));
+                cmd.Parameters.Add(GetParameter("Expire", DateTimeOffset.Now.AddMinutes(model.DelayInMinute), System.Data.DbType.DateTimeOffset));
 
                 int reader = cmd.ExecuteNonQuery();
 
             }
-
 
         }
 

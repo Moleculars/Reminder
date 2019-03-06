@@ -52,7 +52,7 @@ namespace Bb.ReminderStore.MongoDb
                 Binding = model.Binding,
                 Message = model.Binding,
                 Resolved = false,
-                Expire = DateTimeOffset.Now.AddSeconds(model.DelayInMinute),
+                Expire = DateTimeOffset.Now.AddMinutes(model.DelayInMinute),
             };
 
             _wathItemCollection.InsertOne(watchItem);

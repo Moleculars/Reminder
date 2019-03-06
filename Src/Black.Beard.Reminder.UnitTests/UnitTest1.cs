@@ -63,8 +63,7 @@ namespace Black.Beard.Reminder.UnitTests
                 Binding = "test",
                 Address = "http://localhost",
                 DelayInMinute = 20,
-                Message = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("Test")),
-            };
+            }.SetMessage("test");
 
             reminder.Watch(model);
 
@@ -88,8 +87,7 @@ namespace Black.Beard.Reminder.UnitTests
         private static ReminderStoreMongo CreateMongoDb()
         {
             string connectionString = @"Data Source=L00280\SQLEXPRESS;Initial Catalog=Reminder;Integrated Security=True";
-            DbProviderFactories.RegisterFactory(_providerInvariantName, System.Data.SqlClient.SqlClientFactory.Instance);
-            var store = new ReminderStoreMongo(connectionString, "", "", 5);
+            var store = new ReminderStoreMongo(connectionString, "databaseName", "collectionName", 5);
             return store;
         }
 
