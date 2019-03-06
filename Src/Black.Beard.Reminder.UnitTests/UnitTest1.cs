@@ -29,7 +29,6 @@ namespace Black.Beard.Reminder.UnitTests
                 Uuid = Guid.NewGuid(),
                 Binding = "http.post",
                 Address = "http://localhost",
-                CurrentDateCaller = DateTimeOffset.Now,
                 DelayInMinute = 20,
                 Message = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("Test")),
             };
@@ -62,7 +61,6 @@ namespace Black.Beard.Reminder.UnitTests
                 Uuid = Guid.NewGuid(),
                 Binding = "test",
                 Address = "http://localhost",
-                CurrentDateCaller = DateTimeOffset.Now,
                 DelayInMinute = 20,
                 Message = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("Test")),
             };
@@ -101,6 +99,11 @@ namespace Black.Beard.Reminder.UnitTests
         }
 
         public string MethodName => "test";
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
 
         public void Push(Guid uuid, string address, string message, Dictionary<string, object> headers)
         {

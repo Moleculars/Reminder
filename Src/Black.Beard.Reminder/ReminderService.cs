@@ -1,7 +1,7 @@
-﻿using Bb.Reminder;
-using Bb.Reminder.Exceptions;
+﻿using Bb.Reminder.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bb.Reminder
 {
@@ -41,13 +41,22 @@ namespace Bb.Reminder
 
                 byte[] bytes = Convert.FromBase64String(model.Message);
                 string message = System.Text.Encoding.UTF8.GetString(bytes)
-                    //.replace("", "")
                     ;
 
-                service.Push(model.Uuid, model.Address, message, model.Headers);
+                Dictionary<string, object> headers;
+                if (!string.IsNullOrEmpty(model.Headers))
+                    headers = model.Headers.Split(';')
+                        .Where(c => !string.IsNullOrEmpty(c))
+                        .Select(c => c.Trim().Split('='))
+                        .Where(c => !string.IsNullOrEmpty(c[0]) && !string.IsNullOrEmpty(c[1]))
+                        .ToDictionary(c => c[0], c => (object)c[1]);
+                else
+                    headers = new Dictionary<string, object>();
+
+                service.Push(model.Uuid, model.Address, message, headers);
 
             }
-            else 
+            else
                 throw new Exception($"Missing method {model.Binding}");
 
         }
@@ -62,7 +71,7 @@ namespace Bb.Reminder
                 {
                     _store.WakeUp -= WakeUp;
 
-                    foreach (var item in this._methods)
+                    foreach (var item in _methods)
                         item.Value.Dispose();
 
                 }
