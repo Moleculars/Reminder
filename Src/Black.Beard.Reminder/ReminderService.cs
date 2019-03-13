@@ -9,6 +9,12 @@ namespace Bb.Reminder
     public class ReminderService : IReminderRequest, IDisposable
     {
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReminderService"/> class.
+        /// </summary>
+        /// <param name="store">The store.</param>
+        /// <param name="services">The services.</param>
         public ReminderService(IReminderStore store, params IReminderResponseService[] services)
         {
 
@@ -21,6 +27,23 @@ namespace Bb.Reminder
 
         }
 
+        /// <summary>
+        /// Gets the available bindings in the current instance.
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetAvailableBindings()
+        {
+            List<string> result = new List<string>();
+            foreach (var item in _methods.Values)
+                result.Add(item.MethodName);
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Watches the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <exception cref="InvalidMethodException">if the parameter binding not match with registred responses</exception>
         public void Watch(WakeUpRequestModel model)
         {
             if (!_methods.TryGetValue(model.Binding, out IReminderResponseService service))
@@ -28,11 +51,20 @@ namespace Bb.Reminder
             _store.Watch(model);
         }
 
+        /// <summary>
+        /// Cancels the watching.
+        /// </summary>
+        /// <param name="uuid">The UUID.</param>
         public void Cancel(Guid uuid)
         {
             _store.Cancel(uuid);
         }
 
+        /// <summary>
+        /// method to invoke when d time is expirated.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <exception cref="Exception">Missing method {model.Binding}</exception>
         private void WakeUp(Bb.Reminder.WakeUpRequestModel model)
         {
 

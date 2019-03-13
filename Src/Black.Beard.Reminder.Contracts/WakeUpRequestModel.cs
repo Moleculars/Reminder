@@ -4,7 +4,7 @@ using System;
 namespace Bb.Reminder
 {
 
-    [System.Diagnostics.DebuggerDisplay("{Uuid}")]
+    [System.Diagnostics.DebuggerDisplay("{Uuid} -> {Binding}")]
     public class WakeUpRequestModel
     {
 

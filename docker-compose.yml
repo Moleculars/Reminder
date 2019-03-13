@@ -1,0 +1,18 @@
+# Windows full test environment with one of each middleware.
+# Only for DEV computers.
+# Everything on an internal network, with all important services NAT-ed for the developer direct usage.
+version: '3.4'
+services:
+  mongo:
+    image: windows/mongodb:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - v1:C:/data/db/
+    healthcheck:
+      disable: true
+    command: --journal --quiet --wiredTigerCacheSizeGB 1
+
+volumes:
+  v1:
+
