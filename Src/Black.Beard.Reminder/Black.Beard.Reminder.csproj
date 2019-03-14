@@ -8,15 +8,15 @@
     <Copyright>Black Beard</Copyright>
     <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.15</Version>
+    <Version>1.0.16</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Src\Moleculars\Reminder\Src\Black.Beard.Reminder\Black.Beard.Reminder.xml</DocumentationFile>
+    <DocumentationFile>.\Black.Beard.Reminder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Src\Moleculars\Reminder\Src\Black.Beard.Reminder\Black.Beard.Reminder.xml</DocumentationFile>
+    <DocumentationFile>.\Black.Beard.Reminder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
