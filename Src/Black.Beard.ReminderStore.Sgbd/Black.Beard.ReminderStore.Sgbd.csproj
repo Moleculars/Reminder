@@ -7,7 +7,7 @@
     <Company>Black Beard</Company>
     <Copyright>Black Beard</Copyright>
     <PackageLicenseUrl>https://github.com/Moleculars/Reminder/blob/master/LICENSE</PackageLicenseUrl>
-    <Version>1.0.13</Version>
+    <Version>1.0.14</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Black.Beard.ReminderStore.Sgbd</PackageId>
   </PropertyGroup>

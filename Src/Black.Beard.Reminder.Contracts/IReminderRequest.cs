@@ -3,6 +3,10 @@
 namespace Bb.Reminder
 {
 
+    /// <summary>
+    /// Interface that describe reminder base
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public interface IReminderRequest : IDisposable
     {
 

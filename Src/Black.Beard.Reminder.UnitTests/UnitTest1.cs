@@ -55,7 +55,9 @@ namespace Black.Beard.Reminder.UnitTests
             ReminderStoreSqlServer store = CreateSqlReminder();
             var r = new ReminderTest();
 
-            var reminder = new ReminderService(store, r);
+            var reminder = new ReminderService(store);
+
+            reminder.AddResponseServices(r);
 
             var model = new WakeUpRequestModel()
             {

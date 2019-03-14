@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Bb.Reminder
 {
-    
+
+    /// <summary>
+    /// Internface to implement in storage
+    /// </summary>
     public interface IInitializer
     {
 

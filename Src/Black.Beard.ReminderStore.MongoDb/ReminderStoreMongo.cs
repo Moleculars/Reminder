@@ -11,10 +11,22 @@ using System.Threading;
 namespace Bb.ReminderStore.MongoDb
 {
 
-
+    /// <summary>
+    /// store index on mongo
+    /// </summary>
+    /// <seealso cref="Bb.Reminder.IReminderStore" />
+    /// <seealso cref="Bb.Reminder.IInitializer" />
+    /// <seealso cref="System.IDisposable" />
     public class ReminderStoreMongo : IReminderStore, IInitializer, IDisposable
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReminderStoreMongo"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <param name="databaseName">Name of the database.</param>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <param name="wakeUpIntervalSeconds">The wake up interval seconds.</param>
         public ReminderStoreMongo(string connectionString, string databaseName, string collectionName, int wakeUpIntervalSeconds = 20)
         {
             _connectionString = connectionString;
@@ -24,6 +36,10 @@ namespace Bb.ReminderStore.MongoDb
             _timer = new Timer(WakeUpAsync, null, wakeUpIntervalSeconds * 1000, wakeUpIntervalSeconds * 1000);
         }
 
+        /// <summary>
+        /// Initializes current object
+        /// </summary>
+        /// <param name="o">The o.</param>
         public void Initialize(object o)
         {
 
@@ -42,6 +58,10 @@ namespace Bb.ReminderStore.MongoDb
 
         }
 
+        /// <summary>
+        /// Add in index and watches the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
         public void Watch(WakeUpRequestModel model)
         {
 
@@ -59,9 +79,15 @@ namespace Bb.ReminderStore.MongoDb
 
         }
 
+        /// <summary>
+        /// Cancels the specified UUID.
+        /// </summary>
+        /// <param name="uuid">The UUID.</param>
         public void Cancel(Guid uuid)
         {
-
+            var filter = Builders<WatchItem>.Filter.Eq("uuid", uuid);
+            var update = Builders<WatchItem>.Update.Set("resolved", true);
+            var result = _wathItemCollection.UpdateOne(filter, update);
         }
 
         private void WakeUpAsync(object state)
@@ -125,6 +151,12 @@ namespace Bb.ReminderStore.MongoDb
 
         }
 
+        /// <summary>
+        /// Gets or sets the wake up method.
+        /// </summary>
+        /// <value>
+        /// The wake up.
+        /// </value>
         public Action<WakeUpRequestModel> WakeUp { get; set; }
 
         private List<WatchItem> CollectIds()
@@ -143,21 +175,13 @@ namespace Bb.ReminderStore.MongoDb
 
         }
 
-        private readonly string _connectionString;
-        private readonly string _databaseName;
-        private readonly string _collectionName;
-        private readonly Timer _timer;
-        private readonly object _lock = new object();
-        private bool _execute;
 
         #region IDisposable Support
 
-        private bool disposedValue = false; // Pour détecter les appels redondants
-        private MongoClient _client;
-        private IMongoDatabase _database;
-        private IMongoCollection<WatchItem> _wathItemCollection;
-        private FilterDefinition<WatchItem> _filterLeft;
-
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -181,6 +205,9 @@ namespace Bb.ReminderStore.MongoDb
         // }
 
         // Ce code est ajouté pour implémenter correctement le modèle supprimable.
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             // Ne modifiez pas ce code. Placez le code de nettoyage dans Dispose(bool disposing) ci-dessus.
@@ -189,7 +216,21 @@ namespace Bb.ReminderStore.MongoDb
             // GC.SuppressFinalize(this);
         }
 
+        
+        private bool disposedValue = false; // Pour détecter les appels redondants
+        private MongoClient _client;
+        private IMongoDatabase _database;
+        private IMongoCollection<WatchItem> _wathItemCollection;
+        private FilterDefinition<WatchItem> _filterLeft;
+
         #endregion
+
+        private readonly string _connectionString;
+        private readonly string _databaseName;
+        private readonly string _collectionName;
+        private readonly Timer _timer;
+        private readonly object _lock = new object();
+        private bool _execute;
 
     }
 

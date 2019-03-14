@@ -1,26 +1,37 @@
 ﻿using Bb.Reminder.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Bb.Reminder
 {
 
+    /// <summary>
+    /// Implementation of ref="Bb.Reminder.IReminderRequest" />
+    /// </summary>
+    /// <seealso cref="Bb.Reminder.IReminderRequest" />
+    /// <seealso cref="System.IDisposable" />
     public class ReminderService : IReminderRequest, IDisposable
     {
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReminderService"/> class.
         /// </summary>
         /// <param name="store">The store.</param>
-        /// <param name="services">The services.</param>
-        public ReminderService(IReminderStore store, params IReminderResponseService[] services)
+        public ReminderService(IReminderStore store)
         {
 
             _store = store;
             _store.WakeUp = WakeUp;
             _methods = new Dictionary<string, IReminderResponseService>();
+
+        }
+
+        /// <summary>
+        /// Adds the specified responses services.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        public void AddResponseServices(params IReminderResponseService[] services)
+        {
 
             foreach (var item in services)
                 _methods.Add(item.MethodName, item);
@@ -78,6 +89,10 @@ namespace Bb.Reminder
 
         #region IDisposable Support
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -102,6 +117,9 @@ namespace Bb.Reminder
         // }
 
         // Ce code est ajouté pour implémenter correctement le modèle supprimable.
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             // Ne modifiez pas ce code. Placez le code de nettoyage dans Dispose(bool disposing) ci-dessus.

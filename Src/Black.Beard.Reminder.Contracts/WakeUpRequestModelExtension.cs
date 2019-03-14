@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Bb.Reminder
 {
+    /// <summary>
+    /// Wakeup request extension
+    /// </summary>
     public static class WakeUpRequestModelExtension
     {
 
