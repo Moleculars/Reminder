@@ -57,7 +57,7 @@ namespace Black.Beard.Reminder.UnitTests
 
             var reminder = new ReminderService(store);
 
-            reminder.AddResponseServices(r);
+            reminder.AddResponses(r);
 
             var model = new WakeUpRequestModel()
             {

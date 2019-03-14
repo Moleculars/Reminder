@@ -7,6 +7,11 @@ using System.Diagnostics;
 namespace Bb.ReminderResponse.Broker
 {
 
+    /// <summary>
+    /// Bush response in broker
+    /// </summary>
+    /// <seealso cref="Bb.Reminder.IReminderResponseService" />
+    /// <seealso cref="System.IDisposable" />
     public class ReminderResponseBroker : IReminderResponseService, IDisposable
     {
 

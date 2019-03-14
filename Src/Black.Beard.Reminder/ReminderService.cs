@@ -30,7 +30,7 @@ namespace Bb.Reminder
         /// Adds the specified responses services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public void AddResponseServices(params IReminderResponseService[] services)
+        public void AddResponses(params IReminderResponseService[] services)
         {
 
             foreach (var item in services)
